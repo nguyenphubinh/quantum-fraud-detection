@@ -23,6 +23,21 @@ if sys.platform == "win32":
 
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 from config import DATASET_PATH, RESULTS_DIR, FIGURES_DIR, TABLES_DIR
+import config
+
+# Auto-detect Kaggle/GPU environment to switch device to lightning.gpu
+try:
+    import pennylane as qml
+    # Check if lightning.gpu is available
+    if "lightning.gpu" in qml.devices.Device.capabilities():
+        config.QML_DEVICE = "lightning.gpu"
+        print("[GPU] Detected GPU-enabled device capability. Using 'lightning.gpu' for simulation!")
+    else:
+        # Fallback to lightning.qubit if available, else default.qubit
+        config.QML_DEVICE = "lightning.qubit"
+        print("[CPU] GPU backend not detected. Using 'lightning.qubit' for faster CPU simulation.")
+except Exception as e:
+    print(f"[DEVICE] Defaulting to default.qubit: {e}")
 
 
 def main():

@@ -36,6 +36,9 @@ N_LAYERS_QSVM = 2     # Depth of quantum kernel feature map
 N_LAYERS_VQC = 4       # Depth of variational circuit
 N_LAYERS_HYBRID = 3    # Depth of hybrid QNN quantum layer
 
+# Quantum Device Backend (use "lightning.gpu" on GPU-enabled Kaggle, otherwise "default.qubit")
+QML_DEVICE = "default.qubit"
+
 # VQC Training
 VQC_LEARNING_RATE = 0.01
 VQC_EPOCHS = 80

@@ -22,7 +22,7 @@ sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 from config import (
     N_QUBITS, N_LAYERS_QSVM, N_LAYERS_VQC, N_LAYERS_HYBRID,
     VQC_LEARNING_RATE, VQC_EPOCHS, VQC_BATCH_SIZE,
-    HYBRID_LEARNING_RATE, HYBRID_EPOCHS, RANDOM_SEED
+    HYBRID_LEARNING_RATE, HYBRID_EPOCHS, RANDOM_SEED, QML_DEVICE
 )
 
 
@@ -55,7 +55,7 @@ class QuantumKernelSVM(BaseEstimator, ClassifierMixin):
         self.train_time_ = 0
 
         # Create quantum device
-        self.dev = qml.device("default.qubit", wires=n_qubits)
+        self.dev = qml.device(QML_DEVICE, wires=n_qubits)
 
         # Build quantum kernel circuit
         @qml.qnode(self.dev)
@@ -183,7 +183,7 @@ class VariationalQuantumClassifier(BaseEstimator, ClassifierMixin):
         self.loss_history_ = []
 
         # Create quantum device
-        self.dev = qml.device("default.qubit", wires=n_qubits)
+        self.dev = qml.device(QML_DEVICE, wires=n_qubits)
 
         # Build quantum circuit
         @qml.qnode(self.dev, interface="autograd")
@@ -316,7 +316,7 @@ class HybridQuantumNN(BaseEstimator, ClassifierMixin):
         self.loss_history_ = []
 
         # Quantum device
-        self.dev = qml.device("default.qubit", wires=n_qubits)
+        self.dev = qml.device(QML_DEVICE, wires=n_qubits)
 
         @qml.qnode(self.dev, interface="autograd")
         def _quantum_layer(inputs, weights):
